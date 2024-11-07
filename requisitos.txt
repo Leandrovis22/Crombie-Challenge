@@ -1,0 +1,82 @@
+Descripción del Challenge:
+Desarrollar una aplicación completa en React.js con TypeScript que permita a los usuarios registrarse para un préstamo. La aplicación debe tener un front-end accesible y responsivo, construido con Material UI y que utilice React Hook Form y Yup para la validación de formularios. Además, el back-end debe estar implementado utilizando Node.js y Express, y debe manejar dos endpoints: registro y login.
+El sistema debe registrar automáticamente a los usuarios recién creados y redirigirlos a una pantalla de inicio (Home) que muestra los datos del formulario.
+Tecnologías Requeridas
+Front-End: React.js con TypeScript, Material UI, React Hook Form, Yup.
+Back-End: Node.js, Express con Typescript, JWT para autenticación.
+Base de Datos (opcional): Puede simularse con un archivo JSON o usarse una base de datos real (como MongoDB o SQLite).
+Requerimientos de la Aplicación:
+
+1. Front-End (React.js con TypeScript)
+Interfaz de Usuario:
+Material UI debe ser utilizado para diseñar un formulario de registro con un tema personalizado.
+El formulario debe incluir los siguientes campos:
+Nombre
+Apellido
+Correo Electrónico
+Dirección
+Monto del Préstamo
+Fecha de Nacimiento
+Número de Teléfono
+La aplicación debe ser completamente responsiva y accesible.
+Utilizar componentes reutilizables para los campos del formulario y la gestión de estado.
+Validaciones del Formulario:
+Nombre:
+Requerido.
+Mínimo 2 caracteres.
+No debe contener números ni caracteres especiales.
+Apellido:
+Requerido.
+Mínimo 2 caracteres.
+No debe contener números ni caracteres especiales.
+Correo Electrónico:
+Requerido.
+Debe ser un correo electrónico válido.
+No debe estar registrado previamente (simular esta verificación con una lista predefinida de correos en el back-end).
+Dirección:
+Requerido.
+Mínimo 10 caracteres.
+No debe ser solo números (ej. "1234567890" no es válido).
+Monto del Préstamo:
+Requerido.
+Debe ser un número mayor a 0.
+Rango específico (mínimo 25,000, máximo 250,000).
+Fecha de Nacimiento:
+Requerido.
+Fecha válida.
+Mayor de 18 años.
+Utilizar un selector de fecha con restricciones para evitar fechas futuras.
+Número de Teléfono:
+Requerido.
+Debe ser un número válido.
+Solo números y formato específico (ej. (XXX) XXX-XXXX).
+Funcionalidad Adicional:
+Mostrar mensajes de error debajo de cada campo cuando las validaciones no se cumplan.
+Mostrar un mensaje de éxito al enviar el formulario correctamente y detallar los datos ingresados.
+Implementar persistencia de estado en el localStorage para guardar los datos en caso de cierre inesperado del navegador.
+Botón "Restablecer" para reiniciar el formulario a su estado inicial.
+
+2. Back-End (Node.js con Express y TypeScript)
+Endpoints:
+POST /register: Recibe los datos del formulario, los valida, y registra al usuario si los datos son válidos.
+Verifica si el correo ya está registrado.
+Si el registro es exitoso, responde con los datos del usuario y lo loguea automáticamente.
+POST /login: Permite a los usuarios existentes autenticarse mediante correo y contraseña.
+Valida los datos y responde con un token de autenticación si el login es exitoso.
+Autenticación:
+Usar JWT (JSON Web Token) para autenticar al usuario después de registrarse o iniciar sesión.
+Al registrarse con éxito, el usuario debe ser redirigido automáticamente a la pantalla Home que muestra sus datos de registro.
+La pantalla Home debe estar protegida y accesible solo para usuarios autenticados.
+
+Entregables
+1. Código Fuente:
+Repositorio Git con el código de la aplicación completa (front-end y back-end).
+El código debe estar bien documentado y seguir buenas prácticas de desarrollo.
+2. Instrucciones de Instalación y Ejecución:
+Archivo README.md con instrucciones detalladas para instalar dependencias, configurar variables de entorno, y ejecutar el servidor de desarrollo.
+3. Informe de Accesibilidad:
+Un informe detallando las medidas de accesibilidad implementadas, cualquier problema encontrado, y cómo se abordaron.
+4. Tests (opcional):
+Tests unitarios para el back-end (por ejemplo, usando Jest). El front end no es necesario que este testeado.
+Consideraciones Extra
+Persistencia de Sesión: La sesión debe persistir en el navegador mientras el usuario está logueado.
