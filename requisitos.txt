@@ -20,36 +20,44 @@ Fecha de Nacimiento
 Número de Teléfono
 La aplicación debe ser completamente responsiva y accesible.
 Utilizar componentes reutilizables para los campos del formulario y la gestión de estado.
+
 Validaciones del Formulario:
 Nombre:
 Requerido.
 Mínimo 2 caracteres.
 No debe contener números ni caracteres especiales.
+
 Apellido:
 Requerido.
 Mínimo 2 caracteres.
 No debe contener números ni caracteres especiales.
+
 Correo Electrónico:
 Requerido.
 Debe ser un correo electrónico válido.
 No debe estar registrado previamente (simular esta verificación con una lista predefinida de correos en el back-end).
+
 Dirección:
 Requerido.
 Mínimo 10 caracteres.
 No debe ser solo números (ej. "1234567890" no es válido).
+
 Monto del Préstamo:
 Requerido.
 Debe ser un número mayor a 0.
 Rango específico (mínimo 25,000, máximo 250,000).
+
 Fecha de Nacimiento:
 Requerido.
 Fecha válida.
 Mayor de 18 años.
 Utilizar un selector de fecha con restricciones para evitar fechas futuras.
+
 Número de Teléfono:
 Requerido.
 Debe ser un número válido.
 Solo números y formato específico (ej. (XXX) XXX-XXXX).
+
 Funcionalidad Adicional:
 Mostrar mensajes de error debajo de cada campo cuando las validaciones no se cumplan.
 Mostrar un mensaje de éxito al enviar el formulario correctamente y detallar los datos ingresados.
