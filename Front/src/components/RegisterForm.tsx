@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Typography } from '@mui/material';
+import { Alert, Box, Button, Typography } from '@mui/material';
 import { FormField } from '../components/FormField';
 import { DateField } from '../components/DateOfBirth';
 import { PhoneField } from '../components/PhoneField';
 import { registerValidationSchema } from './registerValidationSchema';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { SuccessAlert } from './SuccessAlert';
+import Alerts from './Alerts';
 
 interface FormValues {
     firstName: string;
@@ -39,7 +39,10 @@ const RegisterForm = () => {
     });
 
     const [formData, setFormData] = useState<FormValues | null>(null);
+    
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [showErrorAlert, setShowErrorAlert] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         const storedData = localStorage.getItem('formData');
@@ -58,14 +61,39 @@ const RegisterForm = () => {
         setFormData(formValues);
     }, [watch]);
 
-    const onSubmit = (data: FormValues) => {
+    const onSubmit = async (data: FormValues) => {
+        setShowSuccessAlert(false);
+        setShowErrorAlert(false);
+
         const postData = {
             ...data,
             dateOfBirth: dayjs(formData?.dateOfBirth).format('YYYY-MM-DD'),
         };
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001'}/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            });
+
+            const responseData = await response.json();
+            if (response.ok) {
+                setShowSuccessAlert(true);
+            } else {
+                setErrorMessage(responseData.error);
+                setShowErrorAlert(true);
+            }
+        } catch (error) {
+            setErrorMessage('Unknown error');
+            setShowErrorAlert(true);
+        }
+
         console.log(postData);
-        setShowSuccessAlert(true);
     };
+
 
     const handleReset = () => {
         reset(defaultData);
@@ -84,11 +112,6 @@ const RegisterForm = () => {
             aria-label="Registration Form"
             role="form"
         >
-            <SuccessAlert 
-                show={showSuccessAlert}
-                onClose={() => setShowSuccessAlert(false)}
-                formData={formData}
-            />
 
             <Typography variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800 }}>
                 Register
@@ -186,8 +209,16 @@ const RegisterForm = () => {
                 >
                     Submit Form
                 </Button>
-                
+
             </Box>
+
+            <Alerts
+                showSuccessAlert={showSuccessAlert}
+                showErrorAlert={showErrorAlert}
+                errorMessage={errorMessage}
+                formData={formData}
+            />
+
         </Box>
     );
 };
