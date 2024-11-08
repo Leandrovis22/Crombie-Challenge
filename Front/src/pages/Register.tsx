@@ -44,7 +44,7 @@ const theme = createTheme({
 
 const RegisterForm = () => {
 
-    const { control, register, handleSubmit, formState: { errors } } = useForm<FormValues>({
+    const { control, register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>({
         resolver: yupResolver(validationSchema)
     });
 
@@ -55,89 +55,106 @@ const RegisterForm = () => {
     return (
         <ThemeProvider theme={theme}>
 
-                <Box
-                    component="form"
-                    onSubmit={handleSubmit(onSubmit)}
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        maxWidth: '500px',
-                        margin: '0 auto',
-                        padding: '2rem'
-                    }}
-                    aria-label="Registration Form"
-                    role="form"
-                >
-                    <Typography variant="h1" gutterBottom sx={{ fontSize: '2.25rem' }}>
-                        Register
-                    </Typography>
+            <Box
+                component="form"
+                onSubmit={handleSubmit(onSubmit)}
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    maxWidth: '400px',
+                    margin: '0 auto',
+                    padding: '2rem'
+                }}
+                aria-label="Registration Form"
+                role="form"
+            >
+                <Typography variant="h1" gutterBottom sx={{ fontSize: '2.25rem' }}>
+                    Register
+                </Typography>
 
-                    <FormField<FormValues>
-                        register={register}
-                        name="firstName"
-                        label="First Name"
-                        errors={errors}
-                    />
+                <FormField<FormValues>
+                    register={register}
+                    name="firstName"
+                    label="First Name"
+                    errors={errors}
+                />
 
-                    <FormField<FormValues>
-                        register={register}
-                        name="lastName"
-                        label="Last Name"
-                        errors={errors}
-                    />
+                <FormField<FormValues>
+                    register={register}
+                    name="lastName"
+                    label="Last Name"
+                    errors={errors}
+                />
 
-                    <FormField<FormValues>
-                        register={register}
-                        name="email"
-                        label="Email"
-                        type="email"
-                        errors={errors}
-                    />
+                <FormField<FormValues>
+                    register={register}
+                    name="email"
+                    label="Email"
+                    type="email"
+                    errors={errors}
+                />
 
-                    <FormField<FormValues>
-                        register={register}
-                        name="address"
-                        label="Address"
-                        errors={errors}
-                    />
+                <FormField<FormValues>
+                    register={register}
+                    name="address"
+                    label="Address"
+                    errors={errors}
+                />
 
-                    <FormField<FormValues>
-                        register={register}
-                        name="loanAmount"
-                        label="Loan Amount"
-                        type="number"
-                        min={25000}
-                        max={250000}
-                        errors={errors}
-                    />
+                <FormField<FormValues>
+                    register={register}
+                    name="loanAmount"
+                    label="Loan Amount"
+                    type="number"
+                    min={25000}
+                    max={250000}
+                    errors={errors}
+                />
 
-                    <DateField<FormValues>
-                        control={control}
-                        name="dateOfBirth"
-                        label="Date of Birth"
-                        errors={errors}
-                    />
+                <DateField<FormValues>
+                    control={control}
+                    name="dateOfBirth"
+                    label="Date of Birth"
+                    errors={errors}
+                />
 
-                    <PhoneField<FormValues>
-                        control={control}
-                        name="phoneNumber"
-                        label="Phone Number"
-                        errors={errors}
-                    />
+                <PhoneField<FormValues>
+                    control={control}
+                    name="phoneNumber"
+                    label="Phone Number"
+                    errors={errors}
+                />
 
-                    <Box sx={{ width: '100%', height: '100%', marginTop: '1rem' }}>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            aria-label="Submit registration form"
-                        >
-                            Submit
-                        </Button>
-                    </Box>
+                <Box sx={{ width: '100%', height: '100%', marginTop: '1rem', display: 'flex', justifyContent: 'space-between' }}>
+                    <Button
+                        onClick={() => reset({
+                            firstName: '',
+                            lastName: '',
+                            email: '',
+                            address: '',
+                            loanAmount: 0,
+                            dateOfBirth: undefined,
+                            phoneNumber: '',
+                        })}
+                        variant="outlined"
+                        color="secondary"
+                        sx={{ width: 'calc(50% - 0.5rem)' }}
+                        aria-label="Reset form"
+                    >
+                        Reset Form
+                    </Button>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        sx={{ width: 'calc(50% - 0.5rem)' }}
+                        aria-label="Submit form"
+                    >
+                        Submit Form
+                    </Button>
                 </Box>
+            </Box>
 
         </ThemeProvider>
     );
