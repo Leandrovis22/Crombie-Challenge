@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Typography } from '@mui/material';
+import { Alert, Box, Button, Typography } from '@mui/material';
 import { FormField } from '../components/FormField';
 import { DateField } from '../components/DateOfBirth';
 import { PhoneField } from '../components/PhoneField';
 import { registerValidationSchema } from './registerValidationSchema';
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 
 interface FormValues {
     firstName: string;
@@ -39,6 +40,8 @@ const RegisterForm = () => {
 
     const [formData, setFormData] = useState<FormValues | null>(null);
 
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
     useEffect(() => {
 
         const storedData = localStorage.getItem('formData');
@@ -60,7 +63,12 @@ const RegisterForm = () => {
     }, [watch]);
 
     const onSubmit = (data: FormValues) => {
-        console.log(data);
+        const postData = {
+            ...data,
+            dateOfBirth: dayjs(formData?.dateOfBirth).format('YYYY-MM-DD'),
+        };
+        console.log(postData);
+        setShowSuccessAlert(true);
     };
 
     const handleReset = () => {
@@ -81,6 +89,28 @@ const RegisterForm = () => {
             aria-label="Registration Form"
             role="form"
         >
+
+            {showSuccessAlert && (
+                <Alert
+                    severity="success"
+                    onClose={() => setShowSuccessAlert(false)}
+                    sx={{
+                        position: 'absolute',
+                        top: 15,
+                        right: 15,
+                    }}
+                >
+                    Form submitted successfully! <br />
+                    First Name: {formData?.firstName} <br />
+                    Last Name: {formData?.lastName} <br />
+                    Email: {formData?.email} <br />
+                    Password: {formData?.password} <br />
+                    Address: {formData?.address} <br />
+                    Loan Amount: {formData?.loanAmount} <br />
+                    Date of Birth: {dayjs(formData?.dateOfBirth).format('YYYY-MM-DD')} <br />
+                    Phone Number: {formData?.phoneNumber}
+                </Alert>
+            )}
 
             <Typography variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800 }}>
                 Register
@@ -180,7 +210,7 @@ const RegisterForm = () => {
                 </Button>
 
             </Box>
-            
+
         </Box>
 
     );
