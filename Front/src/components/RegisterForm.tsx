@@ -37,6 +37,7 @@ const RegisterForm = () => {
             aria-label="Registration Form"
             role="form"
         >
+
             <Typography variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800 }}>
                 Register
             </Typography>
@@ -111,6 +112,7 @@ const RegisterForm = () => {
             />
 
             <Box className="form-button-box">
+
                 <Button
                     onClick={() => reset({
                         firstName: '',
@@ -129,6 +131,7 @@ const RegisterForm = () => {
                 >
                     Reset Form
                 </Button>
+
                 <Button
                     type="submit"
                     variant="contained"
@@ -139,6 +142,7 @@ const RegisterForm = () => {
                 >
                     Submit Form
                 </Button>
+
             </Box>
         </Box>
 
