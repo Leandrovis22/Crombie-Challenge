@@ -8,30 +8,7 @@ import { registerValidationSchema } from './registerValidationSchema';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import Alerts from './Alerts';
-
-interface FormValues {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    address: string;
-    loanAmount: number;
-    dateOfBirth: Date;
-    phoneNumber: string;
-}
-
-const defaultData = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    address: '',
-    loanAmount: '' as unknown as number,
-    dateOfBirth: '' as unknown as Date,
-    phoneNumber: '',
-};
+import { defaultData, FormValues } from '../types/types';
 
 const RegisterForm = () => {
     const { control, register, handleSubmit, formState: { errors }, reset, watch } = useForm<FormValues>({
