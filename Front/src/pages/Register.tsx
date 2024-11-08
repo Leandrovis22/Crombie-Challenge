@@ -126,15 +126,17 @@ const RegisterForm = () => {
                         errors={errors}
                     />
 
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        aria-label="Submit registration form"
-                    >
-                        Submit
-                    </Button>
+                    <Box sx={{ width: '100%', height: '100%', marginTop: '1rem' }}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            aria-label="Submit registration form"
+                        >
+                            Submit
+                        </Button>
+                    </Box>
                 </Box>
 
         </ThemeProvider>
