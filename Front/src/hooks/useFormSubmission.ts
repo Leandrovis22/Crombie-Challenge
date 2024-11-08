@@ -17,6 +17,8 @@ export const useFormSubmission = () => {
         };
 
         try {
+
+            console.log(process.env.REACT_APP_API_BASE_URL);
             const response = await fetch(
                 `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001'}/register`,
                 {

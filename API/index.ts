@@ -1,8 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const app = express();
-const routes = require('./routes/route');
+import express from 'express';
+import cors from 'cors';
+import routes from './routes/route';
 
+const app = express();
 
 app.use(cors({
   origin: '*',
@@ -16,6 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/', routes);
 
-app.listen(3001, () => {
-  console.log('Servidor corriendo en el puerto 3001');
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
