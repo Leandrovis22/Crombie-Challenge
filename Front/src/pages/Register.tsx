@@ -8,7 +8,8 @@ import {
     Button,
     Typography,
     FormControl,
-    FormHelperText
+    FormHelperText,
+    FormLabel
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -23,6 +24,20 @@ const theme = createTheme({
         },
         secondary: {
             main: '#6c757d'
+        }
+    },
+    components: {
+        MuiTextField: {
+            defaultProps: {
+                inputProps: {
+                    'aria-required': 'true'
+                }
+            }
+        },
+        MuiButton: {
+            defaultProps: {
+                role: 'button'
+            }
         }
     }
 });
@@ -67,6 +82,18 @@ const RegisterForm = () => {
         console.log(data);
     };
 
+    const visuallyHidden = {
+        position: 'absolute',
+        width: '1px',
+        height: '1px',
+        padding: '0',
+        margin: '-1px',
+        overflow: 'hidden',
+        clip: 'rect(0, 0, 0, 0)',
+        whiteSpace: 'nowrap',
+        border: '0'
+    };
+
     return (
         <ThemeProvider theme={theme}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -81,33 +108,54 @@ const RegisterForm = () => {
                         margin: '0 auto',
                         padding: '2rem'
                     }}
+                    aria-label="Registration Form"
+                    role="form"
                 >
-                    <Typography variant="h4" gutterBottom>
+                    <Typography variant="h1" gutterBottom sx={{ fontSize: '2.25rem' }}>
                         Register
                     </Typography>
 
                     <TextField
                         {...register('firstName')}
+                        id="firstName"
                         label="First Name"
                         variant="outlined"
                         error={!!errors.firstName}
                         helperText={errors.firstName?.message}
                         fullWidth
                         margin="normal"
+                        aria-invalid={!!errors.firstName}
+                        aria-describedby={errors.firstName ? "firstName-error" : undefined}
+                        slotProps={{
+                            htmlInput: {
+                                'aria-label': 'First Name',
+                                'aria-required': 'true'
+                            }
+                        }}
                     />
 
                     <TextField
                         {...register('lastName')}
+                        id="lastName"
                         label="Last Name"
                         variant="outlined"
                         error={!!errors.lastName}
                         helperText={errors.lastName?.message}
                         fullWidth
                         margin="normal"
+                        aria-invalid={!!errors.lastName}
+                        aria-describedby={errors.lastName ? "lastName-error" : undefined}
+                        slotProps={{
+                            htmlInput: {
+                                'aria-label': 'Last Name',
+                                'aria-required': 'true'
+                            }
+                        }}
                     />
 
                     <TextField
                         {...register('email')}
+                        id="email"
                         label="Email"
                         type="email"
                         variant="outlined"
@@ -115,21 +163,38 @@ const RegisterForm = () => {
                         helperText={errors.email?.message}
                         fullWidth
                         margin="normal"
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? "email-error" : undefined}
+                        slotProps={{
+                            htmlInput: {
+                                'aria-label': 'Email address',
+                                'aria-required': 'true'
+                            }
+                        }}
                     />
 
                     <TextField
                         {...register('address')}
+                        id="address"
                         label="Address"
                         variant="outlined"
                         error={!!errors.address}
                         helperText={errors.address?.message}
                         fullWidth
                         margin="normal"
+                        aria-invalid={!!errors.address}
+                        aria-describedby={errors.address ? "address-error" : undefined}
+                        slotProps={{
+                            htmlInput: {
+                                'aria-label': 'Street address',
+                                'aria-required': 'true'
+                            }
+                        }}
                     />
 
                     <TextField
                         {...register('loanAmount', { valueAsNumber: true })}
-                        slotProps={{ input: { inputProps: { min: 0 } } }}
+                        id="loanAmount"
                         label="Loan Amount"
                         type="number"
                         variant="outlined"
@@ -137,29 +202,58 @@ const RegisterForm = () => {
                         helperText={errors.loanAmount?.message}
                         fullWidth
                         margin="normal"
+                        aria-invalid={!!errors.loanAmount}
+                        aria-describedby={errors.loanAmount ? "loanAmount-error" : undefined}
+                        slotProps={{
+                            htmlInput: {
+                                min: 25000,
+                                max: 250000,
+                                'aria-label': 'Loan amount in dollars',
+                                'aria-required': 'true'
+                            }
+                        }}
                     />
 
                     <FormControl fullWidth margin="normal" error={!!errors.dateOfBirth}>
+                        <FormLabel
+                            id="dob-label"
+                            sx={visuallyHidden}
+                        >
+                            Date of Birth
+                        </FormLabel>
                         <Controller
                             control={control}
                             name="dateOfBirth"
                             render={({ field: { onChange, value, ref } }) => (
                                 <DatePicker
                                     onChange={onChange}
-                                    slotProps={{ textField: { required: true } }}
                                     value={value ? dayjs(value) : null}
                                     label="Date of Birth"
                                     maxDate={dayjs().subtract(18, 'years').endOf('year')}
                                     inputRef={ref}
+                                    slotProps={{
+                                        textField: {
+                                            required: true,
+                                            'aria-labelledby': 'dob-label',
+                                            'aria-invalid': !!errors.dateOfBirth,
+                                            'aria-describedby': errors.dateOfBirth ? "dob-error" : undefined
+                                        }
+                                    }}
                                 />
                             )}
                         />
                         {errors.dateOfBirth?.message && (
-                            <FormHelperText>{errors.dateOfBirth.message}</FormHelperText>
+                            <FormHelperText id="dob-error">{errors.dateOfBirth.message}</FormHelperText>
                         )}
                     </FormControl>
 
                     <FormControl fullWidth margin="normal" error={!!errors.phoneNumber}>
+                        <FormLabel
+                            id="phone-label"
+                            sx={visuallyHidden}
+                        >
+                            Phone Number
+                        </FormLabel>
                         <Controller
                             control={control}
                             name="phoneNumber"
@@ -172,16 +266,24 @@ const RegisterForm = () => {
                                     forceCallingCode={false}
                                     error={!!errors.phoneNumber}
                                     onlyCountries={['AR']}
+                                    aria-labelledby="phone-label"
+                                    aria-invalid={!!errors.phoneNumber}
+                                    aria-describedby={errors.phoneNumber ? "phone-error" : undefined}
                                 />
                             )}
                         />
                         {errors.phoneNumber?.message && (
-                            <FormHelperText>{errors.phoneNumber.message}</FormHelperText>
+                            <FormHelperText id="phone-error">{errors.phoneNumber.message}</FormHelperText>
                         )}
                     </FormControl>
 
-
-                    <Button type="submit" variant="contained" color="primary" fullWidth>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        aria-label="Submit registration form"
+                    >
                         Submit
                     </Button>
                 </Box>
