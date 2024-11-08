@@ -1,12 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { FormField } from '../components/FormField';
 import { DateField } from '../components/DateOfBirth';
 import { PhoneField } from '../components/PhoneField';
 import { registerValidationSchema } from './registerValidationSchema';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { SuccessAlert } from './SuccessAlert';
 
 interface FormValues {
     firstName: string;
@@ -33,19 +34,15 @@ const defaultData = {
 };
 
 const RegisterForm = () => {
-
     const { control, register, handleSubmit, formState: { errors }, reset, watch } = useForm<FormValues>({
         resolver: yupResolver(registerValidationSchema),
     });
 
     const [formData, setFormData] = useState<FormValues | null>(null);
-
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
     useEffect(() => {
-
         const storedData = localStorage.getItem('formData');
-
         if (storedData) {
             const parsedData = JSON.parse(storedData) as FormValues;
             setFormData(parsedData);
@@ -53,7 +50,6 @@ const RegisterForm = () => {
         } else {
             setFormData(defaultData);
         }
-
     }, [reset]);
 
     useEffect(() => {
@@ -81,7 +77,6 @@ const RegisterForm = () => {
     }
 
     return (
-
         <Box
             component="form"
             onSubmit={handleSubmit(onSubmit)}
@@ -89,28 +84,11 @@ const RegisterForm = () => {
             aria-label="Registration Form"
             role="form"
         >
-
-            {showSuccessAlert && (
-                <Alert
-                    severity="success"
-                    onClose={() => setShowSuccessAlert(false)}
-                    sx={{
-                        position: 'absolute',
-                        top: 15,
-                        right: 15,
-                    }}
-                >
-                    Form submitted successfully! <br />
-                    First Name: {formData?.firstName} <br />
-                    Last Name: {formData?.lastName} <br />
-                    Email: {formData?.email} <br />
-                    Password: {formData?.password} <br />
-                    Address: {formData?.address} <br />
-                    Loan Amount: {formData?.loanAmount} <br />
-                    Date of Birth: {dayjs(formData?.dateOfBirth).format('YYYY-MM-DD')} <br />
-                    Phone Number: {formData?.phoneNumber}
-                </Alert>
-            )}
+            <SuccessAlert 
+                show={showSuccessAlert}
+                onClose={() => setShowSuccessAlert(false)}
+                formData={formData}
+            />
 
             <Typography variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800 }}>
                 Register
@@ -208,11 +186,9 @@ const RegisterForm = () => {
                 >
                     Submit Form
                 </Button>
-
+                
             </Box>
-
         </Box>
-
     );
 };
 
