@@ -5,6 +5,7 @@ import { FormField } from '../components/FormField';
 import { DateField } from '../components/DateOfBirth';
 import { PhoneField } from '../components/PhoneField';
 import { registerValidationSchema } from './registerValidationSchema';
+import { useEffect, useState } from 'react';
 
 interface FormValues {
     firstName: string;
@@ -18,15 +19,58 @@ interface FormValues {
     phoneNumber: string;
 }
 
+const defaultData = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    address: '',
+    loanAmount: '' as unknown as number,
+    dateOfBirth: '' as unknown as Date,
+    phoneNumber: '',
+};
+
 const RegisterForm = () => {
 
-    const { control, register, handleSubmit, formState: { errors }, reset } = useForm<FormValues>({
-        resolver: yupResolver(registerValidationSchema)
+    const { control, register, handleSubmit, formState: { errors }, reset, watch } = useForm<FormValues>({
+        resolver: yupResolver(registerValidationSchema),
     });
+
+    const [formData, setFormData] = useState<FormValues | null>(null);
+
+    useEffect(() => {
+
+        const storedData = localStorage.getItem('formData');
+
+        if (storedData) {
+            const parsedData = JSON.parse(storedData) as FormValues;
+            setFormData(parsedData);
+            reset(parsedData);
+        } else {
+            setFormData(defaultData);
+        }
+
+    }, [reset]);
+
+    useEffect(() => {
+        const formValues = watch();
+        localStorage.setItem('formData', JSON.stringify(formValues));
+        setFormData(formValues);
+    }, [watch]);
 
     const onSubmit = (data: FormValues) => {
         console.log(data);
     };
+
+    const handleReset = () => {
+        reset(defaultData);
+        localStorage.setItem('formData', JSON.stringify(defaultData));
+    };
+
+    if (!formData) {
+        return <div></div>;
+    }
 
     return (
 
@@ -114,15 +158,7 @@ const RegisterForm = () => {
             <Box className="form-button-box">
 
                 <Button
-                    onClick={() => reset({
-                        firstName: '',
-                        lastName: '',
-                        email: '',
-                        address: '',
-                        loanAmount: 0,
-                        dateOfBirth: undefined,
-                        phoneNumber: '',
-                    })}
+                    onClick={handleReset}
                     variant="outlined"
                     color="secondary"
                     sx={{ width: 'calc(50% - 0.5rem)' }}
@@ -144,6 +180,7 @@ const RegisterForm = () => {
                 </Button>
 
             </Box>
+            
         </Box>
 
     );

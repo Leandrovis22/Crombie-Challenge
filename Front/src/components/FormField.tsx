@@ -25,7 +25,7 @@ export const FormField = <TFormValues extends FieldValues>({
 }: FormFieldProps<TFormValues>) => {
   const fieldError = errors?.[name];
   const finalAriaLabel = ariaLabel || label;
-  
+
   return (
     <TextField
       {...register(name, type === 'number' ? { valueAsNumber: true } : undefined)}
@@ -41,10 +41,10 @@ export const FormField = <TFormValues extends FieldValues>({
       aria-describedby={fieldError ? `${name}-error` : undefined}
       slotProps={{
         htmlInput: {
-        'aria-label': finalAriaLabel,
-        'aria-required': 'true',
-        ...(min !== undefined && { min }),
-        ...(max !== undefined && { max }),
+          'aria-label': finalAriaLabel,
+          'aria-required': 'true',
+          ...(min !== undefined && { min }),
+          ...(max !== undefined && { max }),
         },
       }}
       {...props}
