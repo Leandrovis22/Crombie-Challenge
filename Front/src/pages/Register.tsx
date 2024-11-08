@@ -56,7 +56,7 @@ const RegisterForm = () => {
             .max(dayjs().subtract(18, 'years').endOf('year'), 'You must be at least 18 years old'),
         phoneNumber: Yup.string()
             .required('Phone number is required')
-            .matches(/^\([0-9]{3}\) [0-9]{3}-[0-9]{4}$/, 'Phone number must be in the format (XXX) XXX-XXXX')
+            .matches(/^\+54 \d{3} \d{3} \d{4}$/, 'Phone number must be in the format +XX (XXX) XXX XXXX')
     });
 
     const { control, register, handleSubmit, formState: { errors } } = useForm({
@@ -159,7 +159,27 @@ const RegisterForm = () => {
                         )}
                     </FormControl>
 
-                   
+                    <FormControl fullWidth margin="normal" error={!!errors.phoneNumber}>
+                        <Controller
+                            control={control}
+                            name="phoneNumber"
+                            render={({ field: { onChange, value } }) => (
+                                <MuiTelInput
+                                    value={value || ''}
+                                    onChange={onChange}
+                                    label="Phone Number"
+                                    defaultCountry="AR"
+                                    forceCallingCode={false}
+                                    error={!!errors.phoneNumber}
+                                    onlyCountries={['AR']}
+                                />
+                            )}
+                        />
+                        {errors.phoneNumber?.message && (
+                            <FormHelperText>{errors.phoneNumber.message}</FormHelperText>
+                        )}
+                    </FormControl>
+
 
                     <Button type="submit" variant="contained" color="primary" fullWidth>
                         Submit
