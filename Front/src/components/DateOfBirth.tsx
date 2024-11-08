@@ -59,6 +59,7 @@ export const DateField = <TFormValues extends FieldValues>({
                                     helperText: fieldError?.message as string,
                                     'aria-label': finalAriaLabel,
                                     'aria-labelledby': `${name}-label`,
+                                    'aria-required': 'true',
                                     'aria-invalid': !!fieldError,
                                     'aria-describedby': fieldError ? `${name}-error` : undefined
                                 }

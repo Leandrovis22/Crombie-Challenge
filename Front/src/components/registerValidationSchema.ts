@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
 
-export const validationSchema = Yup.object().shape({
+export const registerValidationSchema = Yup.object().shape({
 
     firstName: Yup.string()
         .required('First name is required')
@@ -17,6 +17,18 @@ export const validationSchema = Yup.object().shape({
         .required('Email is required')
         .email('Email is not valid')
         .matches(/@[a-z]+\.(com|ar|es)$/, 'Email must end with .com, .ar or .es'),
+
+    password: Yup.string()
+        .required('Password is required')
+        .min(8, 'Password length should be at least 8 characters')
+        .matches(
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+            'Password must contain at least one letter, one number, and one special character'
+        ),
+
+    confirmPassword: Yup.string()
+        .required('Confirm password is required')
+        .oneOf([Yup.ref('password'), ''], 'Passwords do not match'),
 
     address: Yup.string()
         .required('Address is required')

@@ -50,6 +50,7 @@ export const PhoneField = <TFormValues extends FieldValues>({
                         onlyCountries={['AR']}
                         aria-label={finalAriaLabel}
                         aria-labelledby={`${name}-label`}
+                        aria-required="true"
                         aria-invalid={!!fieldError}
                         aria-describedby={fieldError ? `${name}-error` : undefined}
                     />

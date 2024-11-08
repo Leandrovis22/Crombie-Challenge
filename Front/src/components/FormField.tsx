@@ -5,7 +5,7 @@ interface FormFieldProps<TFormValues extends FieldValues> {
   register: UseFormRegister<TFormValues>;
   name: Path<TFormValues>;
   label: string;
-  type?: 'text' | 'email' | 'number';
+  type?: 'text' | 'email' | 'number' | 'password';
   errors?: FieldErrors<TFormValues>;
   min?: number;
   max?: number;
