@@ -1,14 +1,16 @@
+import { Box, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Typography } from '@mui/material';
-import { FormField } from '../components/FormField';
-import { DateField } from '../components/DateOfBirth';
-import { PhoneField } from '../components/PhoneField';
+import { FormField } from './FormField';
+import { DateField } from './DateOfBirth';
+import { PhoneField } from './PhoneField';
 import { registerValidationSchema } from './registerValidationSchema';
-import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
+import { FormValues, defaultData } from '../types/types';
+import { useFormPersistence } from '../hooks/useFormPersistence';
+import { useFormSubmission } from '../hooks/useFormSubmission';
+import { FormButtons } from './FormButtons';
 import Alerts from './Alerts';
-import { defaultData, FormValues } from '../types/types';
+import { useState } from 'react';
 
 const RegisterForm = () => {
     const { control, register, handleSubmit, formState: { errors }, reset, watch } = useForm<FormValues>({
@@ -16,60 +18,9 @@ const RegisterForm = () => {
     });
 
     const [formData, setFormData] = useState<FormValues | null>(null);
-    
-    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-    const [showErrorAlert, setShowErrorAlert] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const { showSuccessAlert, showErrorAlert, errorMessage, submitForm } = useFormSubmission();
 
-    useEffect(() => {
-        const storedData = localStorage.getItem('formData');
-        if (storedData) {
-            const parsedData = JSON.parse(storedData) as FormValues;
-            setFormData(parsedData);
-            reset(parsedData);
-        } else {
-            setFormData(defaultData);
-        }
-    }, [reset]);
-
-    useEffect(() => {
-        const formValues = watch();
-        localStorage.setItem('formData', JSON.stringify(formValues));
-        setFormData(formValues);
-    }, [watch]);
-
-    const onSubmit = async (data: FormValues) => {
-        setShowSuccessAlert(false);
-        setShowErrorAlert(false);
-
-        const postData = {
-            ...data,
-            dateOfBirth: dayjs(formData?.dateOfBirth).format('YYYY-MM-DD'),
-        };
-
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001'}/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(postData),
-            });
-
-            const responseData = await response.json();
-            if (response.ok) {
-                setShowSuccessAlert(true);
-            } else {
-                setErrorMessage(responseData.error);
-                setShowErrorAlert(true);
-            }
-        } catch (error) {
-            setErrorMessage('Unknown error');
-            setShowErrorAlert(true);
-        }
-
-        console.log(postData);
-    };
+    useFormPersistence(reset, watch, setFormData);
 
     const handleReset = () => {
         reset(defaultData);
@@ -83,7 +34,7 @@ const RegisterForm = () => {
     return (
         <Box
             component="form"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(submitForm)}
             className='form'
             aria-label="Registration Form"
             role="form"
@@ -99,14 +50,12 @@ const RegisterForm = () => {
                 label="First Name"
                 errors={errors}
             />
-
             <FormField<FormValues>
                 register={register}
                 name="lastName"
                 label="Last Name"
                 errors={errors}
             />
-
             <FormField<FormValues>
                 register={register}
                 name="email"
@@ -114,7 +63,6 @@ const RegisterForm = () => {
                 type="email"
                 errors={errors}
             />
-
             <FormField<FormValues>
                 register={register}
                 name="password"
@@ -122,7 +70,6 @@ const RegisterForm = () => {
                 type="password"
                 errors={errors}
             />
-
             <FormField<FormValues>
                 register={register}
                 name="confirmPassword"
@@ -130,14 +77,12 @@ const RegisterForm = () => {
                 type="password"
                 errors={errors}
             />
-
             <FormField<FormValues>
                 register={register}
                 name="address"
                 label="Address"
                 errors={errors}
             />
-
             <FormField<FormValues>
                 register={register}
                 name="loanAmount"
@@ -147,14 +92,12 @@ const RegisterForm = () => {
                 max={250000}
                 errors={errors}
             />
-
             <DateField<FormValues>
                 control={control}
                 name="dateOfBirth"
                 label="Date of Birth"
                 errors={errors}
             />
-
             <PhoneField<FormValues>
                 control={control}
                 name="phoneNumber"
@@ -162,31 +105,7 @@ const RegisterForm = () => {
                 errors={errors}
             />
 
-            <Box className="form-button-box">
-
-                <Button
-                    onClick={handleReset}
-                    variant="outlined"
-                    color="secondary"
-                    sx={{ width: 'calc(50% - 0.5rem)' }}
-                    aria-label="Reset form"
-                    role="button"
-                >
-                    Reset Form
-                </Button>
-
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    sx={{ width: 'calc(50% - 0.5rem)' }}
-                    aria-label="Submit form"
-                    role="button"
-                >
-                    Submit Form
-                </Button>
-
-            </Box>
+            <FormButtons onReset={handleReset} />
 
             <Alerts
                 showSuccessAlert={showSuccessAlert}
@@ -194,7 +113,6 @@ const RegisterForm = () => {
                 errorMessage={errorMessage}
                 formData={formData}
             />
-
         </Box>
     );
 };
