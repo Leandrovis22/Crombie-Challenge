@@ -1,4 +1,4 @@
-# Crombie Challenge - Session System - React - Express - Typescript 
+# Crombie Challenge - React - Express - Typescript 
 
 ## Overview
 This is a Full-Stack Web Application featuring a session management system with a registration form, login form, and secure user data access protected via JWT, developed as part of the Crombie Challenge. The application implements web accessibility practices.
