@@ -1,8 +1,13 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { verifyToken } from './authService';
+import { User } from '../types/types';
 
-export const useAuthRedirect = (setData: any) => {
+interface HomeData {
+  user: User;
+}
+
+export const useAuthRedirect = (setData: (data: HomeData | null) => void) => {
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
