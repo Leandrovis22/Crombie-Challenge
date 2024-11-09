@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { User } from '../types/types';
-import { UserInfoField } from '../components/UserInfoField';
+import UserInfoForm from '../components/UserInfoField';
 
 
 interface HomeData {
@@ -55,18 +55,11 @@ const Home = () => {
   return (
     <>
       <Box className="form-container">
-        <Box className="form">
-          <Typography variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800, textAlign: 'center' }}>User Information</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', paddingTop: '0.8rem' }}>
-            <UserInfoField label="ID" value={String(user.id)} />
-            <UserInfoField label="First Name" value={user.first_name} />
-            <UserInfoField label="Last Name" value={user.last_name} />
-            <UserInfoField label="Email" value={user.email} />
-            <UserInfoField label="Address" value={user.address} />
-            <UserInfoField label="Loan Amount" value={String(user.loan_amount)} />
-            <UserInfoField label="Date of Birth" value={dayjs(user.date_of_birth).format('YYYY-MM-DD')} />
-            <UserInfoField label="Phone Number" value={user.phone_number} />
-          </Box>
+        <Box className="form" role="region" aria-label="User Information">
+          <Typography tabIndex={0} variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800, textAlign: 'center' }}>User Information</Typography>
+          
+          <UserInfoForm user={user} />
+          
         </Box>
       </Box>
     </>
