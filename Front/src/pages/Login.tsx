@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Typography } from '@mui/material';
 import { FormField } from '../components/FormField';
-import { loginValidationSchema } from '../components/loginValidationSchema';
+import { loginValidationSchema } from '../schemas/loginValidationSchema';
 import { useFormSubmission } from '../hooks/useFormSubmission';
 import Alerts from '../components/Alerts';
 import { useNavigate } from 'react-router-dom';

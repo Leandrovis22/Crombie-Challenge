@@ -9,8 +9,6 @@ const sql = neon(process.env.DATABASE_URL as string);
 export const homeController = async (req: Request, res: Response): Promise<void> => {
   try {
 
-    console.log((req as any).user);
-
     const userId = (req as any).user?.userId;
 
     if (!userId) {

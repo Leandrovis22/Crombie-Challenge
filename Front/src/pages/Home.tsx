@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { User } from '../types/types';
 import UserInfoForm from '../components/UserInfoField';
+import { useAuthRedirect } from '../auth/useAuthRedirect';
 
 interface HomeData {
   user: User;
@@ -10,67 +10,28 @@ interface HomeData {
 
 const Home = () => {
   const [data, setData] = useState<HomeData | null>(null);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    const verifyToken = async () => {
-      const token = localStorage.getItem('token');
+  useAuthRedirect(setData);
 
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL ?
-            `${process.env.REACT_APP_API_BASE_URL}/home`
-            : `http://localhost:3001/home`}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        if (!response.ok) {
-          console.error(await response.json());
-          localStorage.removeItem('token');
-          navigate('/login');
-          return;
-        }
-
-        const data = await response.json();
-        console.log(data);
-        setData(data);
-      } catch (error) {
-        console.error(error);
-        localStorage.removeItem('token');
-        navigate('/login');
-      }
-    };
-
-    verifyToken();
-  }, [navigate]);
-
-  if (!data) {
-    return <Typography></Typography>;
-  }
+  if (!data) return <Typography></Typography>;
 
   const { user } = data;
 
   return (
-    <>
-      <Box className="form-container">
-        <Box className="form" role="region" aria-label="User Information">
-          <Typography tabIndex={0} variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800, textAlign: 'center' }}>
-            User Information
-          </Typography>
-          <UserInfoForm user={user} />
-        </Box>
+    <Box className="form-container">
+      <Box className="form" role="region" aria-label="User Information">
+        <Typography
+          tabIndex={0}
+          variant="h1"
+          gutterBottom
+          sx={{ fontSize: '2.25rem', fontWeight: 800, textAlign: 'center' }}
+        >
+          User Information
+        </Typography>
+        <UserInfoForm user={user} />
       </Box>
-    </>
+    </Box>
   );
 };
 
 export default Home;
-
-

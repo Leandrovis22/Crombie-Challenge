@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormField } from '../components/FormField';
 import { DateField } from '../components/DateOfBirth';
 import { PhoneField } from '../components/PhoneField';
-import { registerValidationSchema } from '../components/registerValidationSchema';
+import { registerValidationSchema } from '../schemas/registerValidationSchema';
 import { FormValues, defaultData } from '../types/types';
 import { useFormPersistence } from '../hooks/useFormPersistence';
 import { useFormSubmission } from '../hooks/useFormSubmission';
