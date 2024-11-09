@@ -1,10 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
 import { User } from '../types/types';
 import UserInfoForm from '../components/UserInfoField';
-
 
 interface HomeData {
   user: User;
@@ -33,6 +31,13 @@ const Home = () => {
           }
         );
 
+        if (!response.ok) {
+          console.error(await response.json());
+          localStorage.removeItem('token');
+          navigate('/login');
+          return;
+        }
+
         const data = await response.json();
         console.log(data);
         setData(data);
@@ -56,10 +61,10 @@ const Home = () => {
     <>
       <Box className="form-container">
         <Box className="form" role="region" aria-label="User Information">
-          <Typography tabIndex={0} variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800, textAlign: 'center' }}>User Information</Typography>
-          
+          <Typography tabIndex={0} variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800, textAlign: 'center' }}>
+            User Information
+          </Typography>
           <UserInfoForm user={user} />
-          
         </Box>
       </Box>
     </>
@@ -67,4 +72,5 @@ const Home = () => {
 };
 
 export default Home;
+
 
