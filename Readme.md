@@ -1,69 +1,77 @@
-# Crombie Challenge - Sistema de Registro de Préstamos
+# Crombie Challenge
 
-## 📑 Descripción General
-Aplicación fullstack accesible para registro y gestión de solicitudes de préstamos, desarrollada como parte del Crombie Challenge. La aplicación implementa las mejores prácticas de accesibilidad web y está construida con TypeScript tanto en el frontend como en el backend.
+## Overview
+This is a Full-Stack Web Application featuring a session management system with a registration form, login form, and secure user data access protected via JWT, developed as part of the Crombie Challenge. The application implements web accessibility practices.
 
-## 📁 Estructura del Proyecto
+## Accessibility Features
+- ARIA labels and roles implemented throughout all forms and components
+- Semantic HTML structure with proper heading hierarchy
+- Keyboard navigation support
+- Screen reader friendly form fields and alerts
+- Focus management for interactive elements
+- Descriptive error messages
+- Input labels and instructions
 
+## Frontend Features
+- Responsive form layouts using Material-UI components
+- User registration with Yup form validation
+- Login system
+- Protected Home User information display
+- Form field persistence for incomplete registrations
+- Input masking for phone numbers
+- Date picker for date of birth (+18 check)
+- Success/error alerts with automatic navigation
+- Form reset functionality
+- Copy-to-clipboard functionality for user information
+- Input constraints
+
+## Backend Features
+- Authentication & Security with JWT, session expiration
+- User password encryption using bcrypt
+- Middleware for route protection and token verification
+- Neon Serverless PostgreSQL
+- No duplicated Users allowed via email check
+- Endpoints /login - User login | /register - New user registration | /home - Protected route for retrieving user data
+- Data Validation & Error Handling
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm (v6 or higher)
+- TypeScript
+
+## Required Environment Variables
+
+### Frontend (Front/.env)
+```env
+REACT_APP_API_URL=http://localhost:3001
 ```
-├── API/
-│   ├── controllers/
-│   │   ├── homeController.ts
-│   │   ├── loginController.ts
-│   │   └── registerController.ts
-│   ├── db/
-│   │   └── createDb.ts
-│   ├── middlewares/
-│   │   └── authMiddleware.ts
-│   ├── routes/
-│   │   └── route.ts
-│   ├── types/
-│   │   └── types.ts
-│   └── index.ts
-│
-└── Front/
-    ├── src/
-    │   ├── auth/
-    │   │   ├── authService.ts
-    │   │   └── useAuthRedirect.ts
-    │   ├── components/
-    │   │   ├── Alerts.tsx
-    │   │   ├── DateOfBirth.tsx
-    │   │   ├── FormButtons.tsx
-    │   │   ├── FormField.tsx
-    │   │   ├── PhoneField.tsx
-    │   │   └── UserInfoField.tsx
-    │   ├── hooks/
-    │   │   ├── useFormPersistence.ts
-    │   │   └── useFormSubmission.ts
-    │   ├── pages/
-    │   │   ├── Home.tsx
-    │   │   ├── Login.tsx
-    │   │   └── Register.tsx
-    │   ├── schemas/
-    │   │   ├── loginValidationSchema.ts
-    │   │   └── registerValidationSchema.ts
-    │   └── styles/
-        └── theme.ts
+
+### Backend (API/.env)
+```env
+PORT=3001
+JWT_SECRET=your_secret_key
+DATABASE_URL=your_database_url
+CORS_ORIGIN=http://localhost:3000
 ```
 
-## 🎨 Frontend
-
-### Requisitos Previos
-- Node.js (v14 o superior)
-- npm (v6 o superior)
-
-### Instalación Frontend
+## Available Scripts for both Front and Back
 
 ```bash
-# Navegar al directorio frontend
+npm run dev      # Start development server
+npm run build    # Build application for production
+```
+
+## Frontend Installation
+
+```bash
+# Navigate to frontend directory
 cd Front
 
-# Instalar dependencias
+# Install dependencies
 npm install
 ```
 
-### Dependencias Principales Frontend
+### Main Frontend Dependencies
 ```json
 {
   "@emotion/react": "^11.13.3",
@@ -80,46 +88,23 @@ npm install
 }
 ```
 
-### Configuración Frontend
-1. Crear archivo `.env` en el directorio `/Front`:
+### Frontend Configuration
+1. Create `.env` file in `/Front` directory:
 ```env
 REACT_APP_API_URL=http://localhost:3001
 ```
 
-### Ejecución Frontend
-```bash
-# Iniciar servidor de desarrollo
-npm run dev
-```
-
-### Características de Accesibilidad
-- Navegación completa por teclado
-- Labels y aria-labels descriptivos
-- Mensajes de error claros y accesibles
-- Alto contraste en textos
-- Estructura semántica del HTML
-- Soporte para lectores de pantalla
-- Focus visual visible
-- Textos alternativos para elementos visuales
-
-## ⚙️ Backend (API)
-
-### Requisitos Previos
-- Node.js (v14 o superior)
-- npm (v6 o superior)
-- TypeScript
-
-### Instalación Backend
+## Backend Installation
 
 ```bash
-# Navegar al directorio backend
+# Navigate to backend directory
 cd API
 
-# Instalar dependencias
+# Install dependencies
 npm install
 ```
 
-### Dependencias Principales Backend
+### Main Backend Dependencies
 ```json
 {
   "@neondatabase/serverless": "^0.10.3",
@@ -130,74 +115,16 @@ npm install
 }
 ```
 
-### Configuración Backend
-1. Crear archivo `.env` en el directorio `/API`:
+### Backend Configuration
+1. Create `.env` file in `/API` directory:
 ```env
 PORT=3001
 JWT_SECRET=your_secret_key
 DATABASE_URL=your_database_url
 ```
 
-2. Configurar Base de Datos:
+2. Configure Database (Only if it's not already created):
 ```bash
-# Ejecutar script de creación de base de datos
-npm run db:create
+# Run database creation script a single time
+ts-node createDb.ts
 ```
-
-### Ejecución Backend
-```bash
-# Compilar TypeScript
-npm run build
-
-# Iniciar servidor de desarrollo
-npm run dev
-```
-
-## 🔧 Scripts Disponibles
-
-### Frontend
-```bash
-npm run dev      # Inicia servidor de desarrollo
-npm run build    # Construye la aplicación para producción
-npm run test     # Ejecuta tests
-```
-
-### Backend
-```bash
-npm run build    # Compila TypeScript
-npm run start    # Inicia servidor en producción
-npm run dev      # Inicia servidor en desarrollo con hot-reload
-```
-
-## 📚 Documentación Adicional
-
-### Componentes Reutilizables
-- `FormField`: Campo de formulario base con validación
-- `DateOfBirth`: Selector de fecha con validación de edad
-- `PhoneField`: Campo de teléfono con formato
-- `FormButtons`: Botones de formulario estandarizados
-- `Alerts`: Sistema de notificaciones accesible
-
-### Hooks Personalizados
-- `useFormPersistence`: Persistencia de formularios en localStorage
-- `useFormSubmission`: Manejo de envío de formularios
-- `useAuthRedirect`: Redirección basada en autenticación
-
-## 🔐 Variables de Entorno Requeridas
-
-### Frontend (Front/.env)
-```env
-REACT_APP_API_URL=http://localhost:3001
-```
-
-### Backend (API/.env)
-```env
-PORT=3001
-JWT_SECRET=your_secret_key
-DATABASE_URL=your_database_url
-CORS_ORIGIN=http://localhost:3000
-```
-
-## 📝 Licencia
-Este proyecto está bajo la Licencia MIT.
-
