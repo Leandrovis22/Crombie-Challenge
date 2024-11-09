@@ -19,23 +19,10 @@ export const PhoneField = <TFormValues extends FieldValues>({
 }: PhoneFieldProps<TFormValues>) => {
     const fieldError = errors?.[name];
     const finalAriaLabel = ariaLabel || label;
-    const visuallyHidden = {
-        position: 'absolute',
-        width: '1px',
-        height: '1px',
-        padding: '0',
-        margin: '-1px',
-        overflow: 'hidden',
-        clip: 'rect(0, 0, 0, 0)',
-        whiteSpace: 'nowrap',
-        border: '0'
-    };
+    
 
     return (
         <FormControl fullWidth margin="normal" error={!!fieldError}>
-            <FormLabel id={`${name}-label`} sx={visuallyHidden}>
-                {label}
-            </FormLabel>
             <Controller
                 control={control}
                 name={name}

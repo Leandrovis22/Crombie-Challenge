@@ -40,7 +40,7 @@ const Login = () => {
                 aria-label="Login Form"
                 role="form"
             >
-                <Typography variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800 }}>
+                <Typography tabIndex={0} variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800 }}>
                     Login
                 </Typography>
 
