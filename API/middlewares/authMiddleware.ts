@@ -21,6 +21,8 @@ export const authenticateToken = (req: CustomRequest, res: Response, next: NextF
     }
 
     req.user = user as JwtPayload;
+    (req as any).userId = req.user?.id;
     next();
   });
 };
+

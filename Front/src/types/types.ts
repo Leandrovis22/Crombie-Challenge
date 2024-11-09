@@ -21,3 +21,14 @@ export const defaultData: FormValues = {
     dateOfBirth: '' as unknown as Date,
     phoneNumber: '',
 };
+
+export interface User {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    address: string;
+    loan_amount: number;
+    date_of_birth: Date;
+    phone_number: string;
+  }

@@ -23,8 +23,8 @@ export const useFormSubmission = (endpoint: string) => {
 
         try {
             const response = await fetch(
-                `${process.env.REACT_APP_API_BASE_URL ? 
-                    `${process.env.REACT_APP_API_BASE_URL}/${endpoint}` 
+                `${process.env.REACT_APP_API_BASE_URL ?
+                    `${process.env.REACT_APP_API_BASE_URL}/${endpoint}`
                     : `http://localhost:3001/${endpoint}`}`,
                 {
                     method: 'POST',
@@ -37,9 +37,7 @@ export const useFormSubmission = (endpoint: string) => {
 
             const responseData = await response.json();
             if (response.ok) {
-                if (endpoint === 'login') {
-                    localStorage.setItem('token', responseData.token);
-                }
+                localStorage.setItem('token', responseData.token);
                 setShowSuccessAlert(true);
             } else {
                 setErrorMessage(responseData.error);

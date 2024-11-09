@@ -3,6 +3,7 @@ import { RegisterRequestBody } from '../types/types';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import { neon } from '@neondatabase/serverless';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
@@ -36,9 +37,17 @@ export const registerController: RequestHandler<{}, any, RegisterRequestBody> = 
       `;
 
       const { password: _, ...userResult } = user[0];
-      res.status(201).json({ message: 'User registered successfully', user: userResult });
+
+      const token = jwt.sign(
+        { userId: user[0].id },
+        process.env.JWT_SECRET!,
+        { expiresIn: '30m' }
+      );
+
+      res.status(201).json({ message: 'User registered successfully', user: userResult, token });
+
     } catch (error: any) {
-      console.error('Error in /register:', error);
+      
       if (error.constraint === 'users_email_key') {
         res.status(400).json({ error: 'That email is already registered' });
         return;
@@ -46,7 +55,6 @@ export const registerController: RequestHandler<{}, any, RegisterRequestBody> = 
       res.status(500).json({ error: 'Error registering user' });
     }
   } catch (error) {
-    console.error('Error in /register:', error);
     res.status(500).json({ error: 'Error registering user' });
   }
 };
