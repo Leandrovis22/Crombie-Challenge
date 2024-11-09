@@ -17,6 +17,7 @@ This is a Full-Stack Web Application featuring a session management system with 
 - User registration with Yup form validation
 - Login system
 - Protected Home User information display
+- Custom modular typed components
 - Form field persistence for incomplete registrations
 - Input masking for phone numbers
 - Date picker for date of birth (+18 check)
