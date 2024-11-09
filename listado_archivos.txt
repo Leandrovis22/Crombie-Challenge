@@ -1,0 +1,150 @@
+API\.env
+API\.gitignore
+API\controllers
+API\db
+API\index.ts
+API\middlewares
+API\package-lock.json
+API\package.json
+API\routes
+API\tsconfig.json
+API\types
+API\controllers\homeController.ts
+API\controllers\loginController.ts
+API\controllers\registerController.ts
+API\db\createDb.ts
+API\middlewares\authMiddleware.ts
+API\routes\route.ts
+API\types\types.ts
+Front\.env
+Front\.gitignore
+Front\listado_archivos.txt
+Front\package-lock.json
+Front\package.json
+Front\public
+Front\requisitos.txt
+Front\src
+Front\tsconfig.json
+Front\public\favicon.ico
+Front\public\index.html
+Front\public\logo192.png
+Front\public\logo512.png
+Front\public\manifest.json
+Front\public\robots.txt
+Front\src\App.tsx
+Front\src\auth
+Front\src\components
+Front\src\hooks
+Front\src\index.tsx
+Front\src\pages
+Front\src\schemas
+Front\src\styles
+Front\src\types
+Front\src\auth\authService.ts
+Front\src\auth\useAuthRedirect.ts
+Front\src\components\Alerts.tsx
+Front\src\components\DateOfBirth.tsx
+Front\src\components\FormButtons.tsx
+Front\src\components\FormField.tsx
+Front\src\components\PhoneField.tsx
+Front\src\components\UserInfoField.tsx
+Front\src\hooks\useFormPersistence.ts
+Front\src\hooks\useFormSubmission.ts
+Front\src\pages\Home.tsx
+Front\src\pages\Login.tsx
+Front\src\pages\Register.tsx
+Front\src\schemas\loginValidationSchema.ts
+Front\src\schemas\registerValidationSchema.ts
+Front\src\styles\globals.css
+Front\src\styles\theme.ts
+Front\src\types\types.ts
+
+{
+  "name": "crombie-challenge",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@hookform/resolvers": "^3.9.1",
+    "@mui/material": "^6.1.6",
+    "@mui/x-date-pickers": "^7.22.1",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.119",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "dayjs": "^1.11.13",
+    "mui-tel-input": "^6.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.1",
+    "react-router-dom": "^6.28.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4",
+    "yup": "^1.4.0"
+  },
+  "scripts": {
+    "dev": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
+
+
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.3",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.9.0",
+    "concurrently": "^9.1.0",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
