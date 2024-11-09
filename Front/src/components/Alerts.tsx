@@ -16,23 +16,28 @@ interface AlertsProps {
     showSuccessAlert: boolean;
     showErrorAlert: boolean;
     errorMessage: string;
-    formData: FormValues;
+    alertMessage: string;
+    formData?: FormValues;
 }
 
-const Alerts = ({ showSuccessAlert, showErrorAlert, errorMessage, formData }: AlertsProps) => {
+const Alerts = ({ showSuccessAlert, showErrorAlert, errorMessage, alertMessage, formData }: AlertsProps) => {
     return (
         <>
             {showSuccessAlert && (
                 <Alert severity="success" sx={{ mt: 2 }}>
-                    Form submitted successfully! <br />
-                    First Name: {formData.firstName} <br />
-                    Last Name: {formData.lastName} <br />
-                    Email: {formData.email} <br />
-                    Password: {formData.password} <br />
-                    Address: {formData.address} <br />
-                    Loan Amount: {formData.loanAmount} <br />
-                    Date of Birth: {dayjs(formData.dateOfBirth).format('YYYY-MM-DD')} <br />
-                    Phone Number: {formData.phoneNumber}
+                    {alertMessage} <br />
+                    {formData && (
+                        <>
+                            First Name: {formData.firstName} <br />
+                            Last Name: {formData.lastName} <br />
+                            Email: {formData.email} <br />
+                            Password: {formData.password} <br />
+                            Address: {formData.address} <br />
+                            Loan Amount: {formData.loanAmount} <br />
+                            Date of Birth: {dayjs(formData.dateOfBirth).format('YYYY-MM-DD')} <br />
+                            Phone Number: {formData.phoneNumber}
+                        </>
+                    )}
                 </Alert>
             )}
             {showErrorAlert && (
@@ -45,3 +50,4 @@ const Alerts = ({ showSuccessAlert, showErrorAlert, errorMessage, formData }: Al
 };
 
 export default Alerts;
+

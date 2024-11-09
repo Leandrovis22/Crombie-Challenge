@@ -1,4 +1,5 @@
-import { RegisterRequest, RegisterResponse } from '../controllers/types/types';
+import { RequestHandler } from 'express';
+import { RegisterRequestBody } from '../types/types';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import { neon } from '@neondatabase/serverless';
@@ -7,10 +8,7 @@ dotenv.config();
 
 const sql = neon(process.env.DATABASE_URL as string);
 
-export const registerController = async (
-  req: RegisterRequest,
-  res: RegisterResponse
-) => {
+export const registerController: RequestHandler<{}, any, RegisterRequestBody> = async (req, res): Promise<void> => {
   try {
     const {
       firstName,
@@ -24,7 +22,8 @@ export const registerController = async (
     } = req.body;
 
     if (!firstName || !lastName || !email || !password) {
-      return res.status(400).json({ error: 'Required fields are missing' });
+      res.status(400).json({ error: 'Required fields are missing' });
+      return;
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,16 +36,17 @@ export const registerController = async (
       `;
 
       const { password: _, ...userResult } = user[0];
-      return res.status(201).json({ message: 'User registered successfully', user: userResult });
+      res.status(201).json({ message: 'User registered successfully', user: userResult });
     } catch (error: any) {
       console.error('Error in /register:', error);
       if (error.constraint === 'users_email_key') {
-        return res.status(400).json({ error: 'That email is already registered' });
+        res.status(400).json({ error: 'That email is already registered' });
+        return;
       }
-      return res.status(500).json({ error: 'Error registering user' });
+      res.status(500).json({ error: 'Error registering user' });
     }
   } catch (error) {
     console.error('Error in /register:', error);
-    return res.status(500).json({ error: 'Error registering user' });
+    res.status(500).json({ error: 'Error registering user' });
   }
 };

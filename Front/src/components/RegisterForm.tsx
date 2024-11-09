@@ -18,7 +18,7 @@ const RegisterForm = () => {
     });
 
     const [formData, setFormData] = useState<FormValues | null>(null);
-    const { showSuccessAlert, showErrorAlert, errorMessage, submitForm } = useFormSubmission();
+    const { showSuccessAlert, showErrorAlert, errorMessage, submitForm } = useFormSubmission('register');
 
     useFormPersistence(reset, watch, setFormData);
 
@@ -112,6 +112,7 @@ const RegisterForm = () => {
                 showErrorAlert={showErrorAlert}
                 errorMessage={errorMessage}
                 formData={formData}
+                alertMessage="Registration Successful"
             />
         </Box>
     );

@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import dayjs from 'dayjs';
-import { FormValues } from '../types/types';
+import { FormValues as OriginalFormValues } from '../types/types';
 
-export const useFormSubmission = () => {
+type FormValues = Partial<OriginalFormValues>;
+
+export const useFormSubmission = (endpoint: string) => {
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showErrorAlert, setShowErrorAlert] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -11,16 +13,19 @@ export const useFormSubmission = () => {
         setShowSuccessAlert(false);
         setShowErrorAlert(false);
 
-        const postData = {
-            ...data,
-            dateOfBirth: dayjs(data.dateOfBirth).format('YYYY-MM-DD'),
-        };
+        const postData = { ...data };
+
+        if (endpoint === 'register' && data.dateOfBirth) {
+            postData.dateOfBirth = typeof data.dateOfBirth === 'string'
+                ? dayjs(data.dateOfBirth).toDate()
+                : data.dateOfBirth;
+        }
 
         try {
-
-            console.log(process.env.REACT_APP_API_BASE_URL);
             const response = await fetch(
-                `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001'}/register`,
+                `${process.env.REACT_APP_API_BASE_URL ? 
+                    `${process.env.REACT_APP_API_BASE_URL}/${endpoint}` 
+                    : `http://localhost:3001/${endpoint}`}`,
                 {
                     method: 'POST',
                     headers: {
@@ -32,6 +37,9 @@ export const useFormSubmission = () => {
 
             const responseData = await response.json();
             if (response.ok) {
+                if (endpoint === 'login') {
+                    localStorage.setItem('token', responseData.token);
+                }
                 setShowSuccessAlert(true);
             } else {
                 setErrorMessage(responseData.error);

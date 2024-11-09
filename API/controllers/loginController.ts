@@ -1,42 +1,45 @@
-// const { PrismaClient } = require('@prisma/client');
-// const prisma = new PrismaClient();
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
+import { RequestHandler } from "express";
+import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
+import { neon } from '@neondatabase/serverless';
+import jwt from 'jsonwebtoken';
+import { LoginRequestBody, User } from "../types/types";
 
 
-// exports.login = async (req, res) => {
-//   const { dni, password } = req.body;
+dotenv.config();
 
-//   try {
-//     const user = await prisma.usuario.findUnique({
-//       where: { dni: dni }
-//     });
+const sql = neon(process.env.DATABASE_URL as string);
 
-//     if (!user) {
-//       return res.status(404).json({ error: 'Usuario no encontrado' });
-//     }
+export const loginController: RequestHandler<{}, any, LoginRequestBody> = async (req, res): Promise<void> => {
+    try {
+        const { email, password } = req.body;
 
-//     const validPassword = await bcrypt.compare(password, user.password);
-//     if (!validPassword) {
-//       return res.status(401).json({ error: 'Contraseña incorrecta' });
-//     }
+        const user = (await sql`
+      SELECT * FROM users WHERE email = ${email}
+    `) as unknown as User[];
 
-//     const token = jwt.sign(
-//       { id: user.id.toString(), rol: user.rol },
-//       process.env.JWT_SECRET,
-//       { expiresIn: '30m' }
-//     );
+        if (!user || user.length === 0) {
+            res.status(404).json({ error: 'Email not found' });
+            return;
+        }
 
-//     const { password: _, createdAt, Tiqueterias, id, ...userData } = user;
-//     console.log(token)
-//     res.json({
-//       message: 'Login exitoso',
-//       token: token,
-//       user: userData
-//     });
-//   } catch (error) {
-//     console.error('Error en el login:', error);
-//     res.status(500).json({ error: 'Error en el login' });
-//   }
-// };
+        const isMatch = await bcrypt.compare(password, user[0].password);
+
+        if (!isMatch) {
+            res.status(401).json({ error: 'Password is incorrect' });
+            return;
+        }
+
+        const token = jwt.sign(
+            { userId: user[0].id },
+            process.env.JWT_SECRET!,
+            { expiresIn: '30m' }
+        );
+
+        res.json({ token });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error logging in' });
+    }
+};
 
