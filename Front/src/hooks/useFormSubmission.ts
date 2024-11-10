@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import dayjs from 'dayjs';
-import { FormValues as OriginalFormValues } from '../types/types';
+import { RegisterFormValues as OriginalFormValues } from '../types/types';
 
-type FormValues = Partial<OriginalFormValues>;
+type RegisterFormValues = Partial<OriginalFormValues>;
 
 export const useFormSubmission = (endpoint: string) => {
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
     const [showErrorAlert, setShowErrorAlert] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const submitForm = async (data: FormValues) => {
+    const submitForm = async (data: RegisterFormValues) => {
         setShowSuccessAlert(false);
         setShowErrorAlert(false);
 

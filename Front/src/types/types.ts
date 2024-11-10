@@ -1,4 +1,4 @@
-export interface FormValues {
+export interface RegisterFormValues {
     firstName: string;
     lastName: string;
     email: string;
@@ -10,7 +10,12 @@ export interface FormValues {
     phoneNumber: string;
 }
 
-export const defaultData: FormValues = {
+export interface LoginFormValues {
+    email: string;
+    password: string;
+}
+
+export const defaultData: RegisterFormValues = {
     firstName: '',
     lastName: '',
     email: '',
@@ -31,4 +36,4 @@ export interface User {
     loan_amount: number;
     date_of_birth: Date;
     phone_number: string;
-  }
+}

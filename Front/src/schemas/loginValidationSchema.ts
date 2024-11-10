@@ -5,7 +5,7 @@ export const loginValidationSchema = Yup.object().shape({
     email: Yup.string()
         .required('Email is required')
         .email('Email is not valid')
-        .matches(/@[a-z]+\.(com|ar|es)$/, 'Email must end with .com, .ar or .es'),
+        .matches(/@\w+\.\w{2,5}(\.\w{2,5})?$/, 'Email must end with a valid domain extension'),
 
     password: Yup.string()
         .required('Password is required')

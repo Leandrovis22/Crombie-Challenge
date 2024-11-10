@@ -5,7 +5,7 @@ import { FormField } from '../components/FormField';
 import { DateField } from '../components/DateOfBirth';
 import { PhoneField } from '../components/PhoneField';
 import { registerValidationSchema } from '../schemas/registerValidationSchema';
-import { FormValues, defaultData } from '../types/types';
+import { defaultData, RegisterFormValues } from '../types/types';
 import { useFormPersistence } from '../hooks/useFormPersistence';
 import { useFormSubmission } from '../hooks/useFormSubmission';
 import { FormButtons } from '../components/FormButtons';
@@ -14,23 +14,42 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-    const { control, register, handleSubmit, formState: { errors }, reset, watch } = useForm<FormValues>({
+    // Form state management using react-hook-form Handles validation through yup schema and maintains field states
+    const { 
+        control, 
+        register, 
+        handleSubmit, 
+        formState: { errors }, 
+        reset, 
+        watch 
+    } = useForm<RegisterFormValues>({
         resolver: yupResolver(registerValidationSchema),
     });
 
-    const [formData, setFormData] = useState<FormValues | null>(null);
-    const { showSuccessAlert, showErrorAlert, errorMessage, submitForm } = useFormSubmission('register');
+    // Stores the current form data null indicates loading state while retrieving persisted data
+    const [formData, setFormData] = useState<RegisterFormValues | null>(null);
+
+    // Manages submission state, success/error alerts, and API communication
+    const { 
+        showSuccessAlert,  // Indicates successful form submission
+        showErrorAlert,    // Indicates failed form submission
+        errorMessage,      // Contains API or validation error messages
+        submitForm        // Handles the form submission process
+    } = useFormSubmission('register');
 
     const navigate = useNavigate();
 
+    // Automatically redirects to home page after successful registration
     useEffect(() => {
         if (showSuccessAlert) {
             setTimeout(() => navigate('/home'), 3000);
         }
     }, [showSuccessAlert, navigate]);
 
+    // Automatically saves form state to localStorage and restores on mount
     useFormPersistence(reset, watch, setFormData);
 
+    // Clears form state and removes persisted data
     const handleReset = () => {
         reset(defaultData);
         localStorage.setItem('formData', JSON.stringify(defaultData));
@@ -41,8 +60,8 @@ const Register = () => {
     }
 
     return (
-
         <Box className="form-container">
+
             <Box
                 component="form"
                 onSubmit={handleSubmit(submitForm)}
@@ -50,51 +69,50 @@ const Register = () => {
                 aria-label="Registration Form"
                 role="form"
             >
-
                 <Typography tabIndex={0} variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800 }}>
                     Register
                 </Typography>
 
-                <FormField<FormValues>
+                <FormField<RegisterFormValues>
                     register={register}
                     name="firstName"
                     label="First Name"
                     errors={errors}
                 />
-                <FormField<FormValues>
+                <FormField<RegisterFormValues>
                     register={register}
                     name="lastName"
                     label="Last Name"
                     errors={errors}
                 />
-                <FormField<FormValues>
+                <FormField<RegisterFormValues>
                     register={register}
                     name="email"
                     label="Email"
                     type="email"
                     errors={errors}
                 />
-                <FormField<FormValues>
+                <FormField<RegisterFormValues>
                     register={register}
                     name="password"
                     label="Password"
                     type="password"
                     errors={errors}
                 />
-                <FormField<FormValues>
+                <FormField<RegisterFormValues>
                     register={register}
                     name="confirmPassword"
                     label="Confirm Password"
                     type="password"
                     errors={errors}
                 />
-                <FormField<FormValues>
+                <FormField<RegisterFormValues>
                     register={register}
                     name="address"
                     label="Address"
                     errors={errors}
                 />
-                <FormField<FormValues>
+                <FormField<RegisterFormValues>
                     register={register}
                     name="loanAmount"
                     label="Loan Amount"
@@ -103,13 +121,13 @@ const Register = () => {
                     max={250000}
                     errors={errors}
                 />
-                <DateField<FormValues>
+                <DateField<RegisterFormValues>
                     control={control}
                     name="dateOfBirth"
                     label="Date of Birth"
                     errors={errors}
                 />
-                <PhoneField<FormValues>
+                <PhoneField<RegisterFormValues>
                     control={control}
                     name="phoneNumber"
                     label="Phone Number"
@@ -131,4 +149,3 @@ const Register = () => {
 };
 
 export default Register;
-

@@ -7,22 +7,20 @@ import { useFormSubmission } from '../hooks/useFormSubmission';
 import Alerts from '../components/Alerts';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-
-interface FormValues {
-    email: string;
-    password: string;
-}
+import { LoginFormValues } from '../types/types';
 
 const Login = () => {
-
-    const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
+    // Form state management using react-hook-form Handles validation through yup schema
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginFormValues>({
         resolver: yupResolver(loginValidationSchema)
     });
 
+    // Custom hook to handle form submission logic and manage alert states
     const { showSuccessAlert, showErrorAlert, errorMessage, submitForm } = useFormSubmission('login');
 
     const navigate = useNavigate();
 
+    // Handle redirect after successful login redirects to home page after 3 seconds
     useEffect(() => {
         let timer: NodeJS.Timeout;
         if (showSuccessAlert) {
@@ -44,7 +42,7 @@ const Login = () => {
                     Login
                 </Typography>
 
-                <FormField<FormValues>
+                <FormField<LoginFormValues>
                     register={register}
                     name="email"
                     label="Email"
@@ -52,7 +50,7 @@ const Login = () => {
                     errors={errors}
                 />
 
-                <FormField<FormValues>
+                <FormField<LoginFormValues>
                     register={register}
                     name="password"
                     label="Password"
