@@ -2,6 +2,11 @@ import { useEffect } from 'react';
 import { UseFormReset, UseFormWatch } from 'react-hook-form';
 import { RegisterFormValues, defaultData } from '../types/types';
 
+/**
+ * Manages form state persistence using localStorage.
+ * Restores form state from localStorage on mount, and saves the form state to localStorage on change.
+ */
+
 export const useFormPersistence = (
     reset: UseFormReset<RegisterFormValues>,
     watch: UseFormWatch<RegisterFormValues>,

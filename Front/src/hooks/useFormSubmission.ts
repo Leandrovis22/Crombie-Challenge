@@ -1,8 +1,15 @@
 import { useState } from 'react';
-import dayjs from 'dayjs';
 import { RegisterFormValues as OriginalFormValues } from '../types/types';
 
 type RegisterFormValues = Partial<OriginalFormValues>;
+
+/**
+ * This handles form submission sending a post to the register or login endpoint.
+ * It provides three states: showSuccessAlert, showErrorAlert, and errorMessage.
+ * SubmitForm posts the form data to the endpoint.
+ * If successful, it will set showSuccessAlert to true.
+ * If it fails, it will set showErrorAlert to true and set errorMessage to the error message returned by the server.
+ */
 
 export const useFormSubmission = (endpoint: string) => {
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -14,13 +21,7 @@ export const useFormSubmission = (endpoint: string) => {
         setShowSuccessAlert(false);
         setShowErrorAlert(false);
 
-        // Prepare form data, we receive it as a string, the api expects a date object
-        const postData = { ...data };
-        if (endpoint === 'register' && data.dateOfBirth) {
-            postData.dateOfBirth = typeof data.dateOfBirth === 'string' 
-                ? dayjs(data.dateOfBirth).toDate() 
-                : data.dateOfBirth;
-        }
+        const postData = {...data};
 
         const apiUrl = process.env.REACT_APP_API_BASE_URL 
             ? `${process.env.REACT_APP_API_BASE_URL}/${endpoint}`
@@ -35,7 +36,6 @@ export const useFormSubmission = (endpoint: string) => {
 
             const responseData = await response.json();
             
-            // Handle response
             if (response.ok) {
                 localStorage.setItem('token', responseData.token);
                 setShowSuccessAlert(true);
