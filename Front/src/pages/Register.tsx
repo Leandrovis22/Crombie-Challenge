@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormField } from '../components/FormField';
@@ -26,7 +26,7 @@ const Register = () => {
         resolver: yupResolver(registerValidationSchema),
     });
 
-    // Stores the current form data null indicates loading state while retrieving persisted data
+    // Stores the current form data
     const [formData, setFormData] = useState<RegisterFormValues | null>(null);
 
     // Manages submission state, success/error alerts, and API communication
@@ -39,7 +39,7 @@ const Register = () => {
 
     const navigate = useNavigate();
 
-    // Automatically redirects to home page after successful registration
+    // Redirects to home page after successful registration
     useEffect(() => {
         if (showSuccessAlert) {
             setTimeout(() => navigate('/home'), 3000);
@@ -56,7 +56,11 @@ const Register = () => {
     };
 
     if (!formData) {
-        return <Typography></Typography>;
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+              <CircularProgress />
+            </Box>
+          );
     }
 
     return (

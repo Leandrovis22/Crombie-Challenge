@@ -2,6 +2,11 @@ import { HomeData } from '../types/types';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001';
 
+/**
+ * Fetches home data from the server. It sends a request to the '/home' endpoint with the authentication token stored in localStorage.
+ * If the token is missing or the request fails, an error is thrown.
+ */
+
 export const fetchHomeData = async (): Promise<HomeData> => {
   const token = localStorage.getItem('token');
   

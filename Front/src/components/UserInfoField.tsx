@@ -1,6 +1,12 @@
 import { HomeData } from '../types/types';
 import { Box, Divider, TextField } from '@mui/material';
 
+/**
+ * A component that displays a single field of user information as a label and its
+ * corresponding value. The value will be displayed as a string, or as an empty
+ * string if it is `undefined` or `null`. The component is entirely read-only.
+ */
+
 const UserInfoField = ({ label, value }: { label: string; value: string | number | Date | undefined | null }) => {
   const fieldId = `field-${label.toLowerCase().replace(/\s+/g, '-')}`;
   const displayValue = value === undefined || value === null
@@ -8,14 +14,14 @@ const UserInfoField = ({ label, value }: { label: string; value: string | number
     : value instanceof Date
       ? value.toLocaleDateString()
       : value.toString();
-  
+
   return (
-    <Box 
-      display="flex" 
-      alignItems="center" 
+    <Box
+      display="flex"
+      alignItems="center"
       gap={2}
-      component="div" 
-      role="group" 
+      component="div"
+      role="group"
       aria-labelledby={fieldId}
     >
       <TextField
@@ -41,6 +47,10 @@ const UserInfoField = ({ label, value }: { label: string; value: string | number
   );
 };
 
+/**
+ * A component that displays a form with the user's information.
+ */
+
 const UserInfoForm = ({ user }: { user: HomeData | undefined | null }) => {
   if (!user) return null;
 
@@ -57,9 +67,9 @@ const UserInfoForm = ({ user }: { user: HomeData | undefined | null }) => {
       }}
     >
       <Divider role="presentation" />
-      <Box 
-        display="flex" 
-        flexDirection="column" 
+      <Box
+        display="flex"
+        flexDirection="column"
         gap={2}
         component="form"
         role="group"
