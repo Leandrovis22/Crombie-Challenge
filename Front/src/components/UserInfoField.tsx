@@ -1,9 +1,13 @@
-import { User } from '../types/types';
+import { HomeData } from '../types/types';
 import { Box, Divider, TextField } from '@mui/material';
 
-const UserInfoField = ({ label, value }: { label: string; value: string | number | Date }) => {
+const UserInfoField = ({ label, value }: { label: string; value: string | number | Date | undefined | null }) => {
   const fieldId = `field-${label.toLowerCase().replace(/\s+/g, '-')}`;
-  const displayValue = value instanceof Date ? value.toLocaleDateString() : value.toString();
+  const displayValue = value === undefined || value === null
+    ? ''
+    : value instanceof Date
+      ? value.toLocaleDateString()
+      : value.toString();
   
   return (
     <Box 
@@ -31,13 +35,15 @@ const UserInfoField = ({ label, value }: { label: string; value: string | number
           }
         }}
         aria-label={`${label} field, value: ${displayValue}. Click to select, press Ctrl+C to copy`}
-        title={`${label}: ${displayValue}`}
+        title={`${label}: ${displayValue || 'N/A'}`}
       />
     </Box>
   );
 };
 
-const UserInfoForm = ({ user }: { user: User }) => {
+const UserInfoForm = ({ user }: { user: HomeData | undefined | null }) => {
+  if (!user) return null;
+
   return (
     <Box
       component="section"

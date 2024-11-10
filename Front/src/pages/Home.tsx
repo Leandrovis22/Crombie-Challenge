@@ -1,32 +1,38 @@
-import { Box, Typography } from '@mui/material';
-import { useState } from 'react';
-import { User } from '../types/types';
+import { Box, Typography, CircularProgress } from '@mui/material';
+import { useHomeData } from '../hooks/useHomeData';
 import UserInfoForm from '../components/UserInfoField';
-import { useAuthRedirect } from '../auth/useAuthRedirect';
-
-interface HomeData {
-  user: User;
-}
 
 const Home = () => {
-  const [data, setData] = useState<HomeData | null>(null);
+  const { data, isLoading } = useHomeData();
 
-  useAuthRedirect(setData);
+  if (isLoading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
-  if (!data) return <Typography></Typography>;
+  if (!data) return null;
 
-  const { user } = data;
+  const user = data;
 
   return (
     <Box className="form-container">
       <Box className="form" role="region" aria-label="User Information">
-
-        <Typography tabIndex={0} variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800, textAlign: 'center' }}>
+        <Typography 
+          tabIndex={0} 
+          variant="h1" 
+          gutterBottom 
+          sx={{ 
+            fontSize: '2.25rem', 
+            fontWeight: 800, 
+            textAlign: 'center' 
+          }}
+        >
           User Information
         </Typography>
-
         <UserInfoForm user={user} />
-
       </Box>
     </Box>
   );

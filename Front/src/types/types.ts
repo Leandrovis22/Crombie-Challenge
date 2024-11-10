@@ -27,7 +27,7 @@ export const defaultData: RegisterFormValues = {
     phoneNumber: '',
 };
 
-export interface User {
+export interface HomeData {
     id: number;
     first_name: string;
     last_name: string;
