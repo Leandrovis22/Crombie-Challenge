@@ -48,6 +48,6 @@ export const registerValidationSchema = Yup.object().shape({
 
     phoneNumber: Yup.string()
         .required('Phone number is required')
-        .matches(/^\+54 \d{3} \d{3} \d{4}$/, 'Phone number must be in the format +XX (XXX) XXX XXXX')
+        .matches(/^\+54\s*(\d\s*){10}$/, 'Phone number must be in the format +XX (XXX) XXX XXXX')
 
 });

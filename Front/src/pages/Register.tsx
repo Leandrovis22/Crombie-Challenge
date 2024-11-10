@@ -37,7 +37,7 @@ const Register = () => {
     };
 
     if (!formData) {
-        return <div></div>;
+        return <Typography></Typography>;
     }
 
     return (
