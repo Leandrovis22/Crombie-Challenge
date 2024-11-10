@@ -14,17 +14,15 @@ This is a Full-Stack Web Application featuring a session management system with 
 
 ## Frontend Features
 - Responsive form layouts using Material-UI components
-- User registration with Yup form validation
+- Input constraints for user registration with Yup form validation
 - Login system
 - Protected Home User information display
 - Custom modular typed components
 - Form field persistence for incomplete registrations
-- Input masking for phone numbers
 - Date picker for date of birth (+18 check)
 - Success/error alerts with automatic navigation
 - Form reset functionality
 - Copy-to-clipboard functionality for user information
-- Input constraints
 
 ## Backend Features
 - Authentication & Security with JWT, session expiration
@@ -44,7 +42,7 @@ This is a Full-Stack Web Application featuring a session management system with 
 
 ### Frontend (Front/.env)
 ```env
-REACT_APP_API_URL=http://localhost:3001
+REACT_APP_API_BASE_URL=your_api_url
 ```
 
 ### Backend (API/.env)
@@ -52,7 +50,7 @@ REACT_APP_API_URL=http://localhost:3001
 PORT=3001
 JWT_SECRET=your_secret_key
 DATABASE_URL=your_database_url
-CORS_ORIGIN=http://localhost:3000
+CORS_ORIGIN=your_frontend_url
 ```
 
 ## Available Scripts for both Front and Back
@@ -89,12 +87,6 @@ npm install
 }
 ```
 
-### Frontend Configuration
-1. Create `.env` file in `/Front` directory:
-```env
-REACT_APP_API_URL=http://localhost:3001
-```
-
 ## Backend Installation
 
 ```bash
@@ -115,16 +107,8 @@ npm install
   "jsonwebtoken": "^9.0.2"
 }
 ```
+## Configure Database (Only if it's not already created):
 
-### Backend Configuration
-1. Create `.env` file in `/API` directory:
-```env
-PORT=3001
-JWT_SECRET=your_secret_key
-DATABASE_URL=your_database_url
-```
-
-2. Configure Database (Only if it's not already created):
 ```bash
 # Run database creation script a single time
 ts-node createDb.ts
