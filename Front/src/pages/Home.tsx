@@ -20,15 +20,13 @@ const Home = () => {
   return (
     <Box className="form-container">
       <Box className="form" role="region" aria-label="User Information">
-        <Typography
-          tabIndex={0}
-          variant="h1"
-          gutterBottom
-          sx={{ fontSize: '2.25rem', fontWeight: 800, textAlign: 'center' }}
-        >
+
+        <Typography tabIndex={0} variant="h1" gutterBottom sx={{ fontSize: '2.25rem', fontWeight: 800, textAlign: 'center' }}>
           User Information
         </Typography>
+
         <UserInfoForm user={user} />
+
       </Box>
     </Box>
   );
