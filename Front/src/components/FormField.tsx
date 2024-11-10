@@ -9,8 +9,15 @@ interface FormFieldProps<TFormValues extends FieldValues> {
   errors?: FieldErrors<TFormValues>;
   min?: number;
   max?: number;
-  'aria-label'?: string;
 }
+
+/**
+ * This is a custom component that renders a form field with the given name and label.
+ * The field is registered with React Hook Form using the given register function.
+ * The field is rendered as a MUI TextField, with the type set to the given type.
+ * The field is shows validation with the given errors object.
+ * The field is rendered with the given min and max values if provided.
+ */
 
 export const FormField = <TFormValues extends FieldValues>({
   register,
@@ -20,11 +27,9 @@ export const FormField = <TFormValues extends FieldValues>({
   errors,
   min,
   max,
-  'aria-label': ariaLabel,
   ...props
 }: FormFieldProps<TFormValues>) => {
   const fieldError = errors?.[name];
-  const finalAriaLabel = ariaLabel || label;
 
   return (
     <TextField
@@ -41,7 +46,7 @@ export const FormField = <TFormValues extends FieldValues>({
       aria-describedby={fieldError ? `${name}-error` : undefined}
       slotProps={{
         htmlInput: {
-          'aria-label': finalAriaLabel,
+          'aria-label': label,
           'aria-required': 'true',
           ...(min !== undefined && { min }),
           ...(max !== undefined && { max }),

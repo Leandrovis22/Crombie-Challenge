@@ -47,7 +47,7 @@ const Register = () => {
     }, [showSuccessAlert, navigate]);
 
     // Automatically saves form state to localStorage and restores on mount
-    useFormPersistence(reset, watch, setFormData);
+    useFormPersistence(reset, watch, control, setFormData);
 
     // Clears form state and removes persisted data
     const handleReset = () => {

@@ -10,17 +10,27 @@ interface PhoneFieldProps<TFormValues extends FieldValues> {
     'aria-label'?: string;
 }
 
+/**
+ * Renders a phone input field with a country code selector using the "MuiTelInput" component
+ * from the "mui-tel-input" library.
+ * The field is controlled by React Hook Form and receives the following props:
+ * - control: a React Hook Form controller
+ * - name: the name of the field
+ * - label: the label displayed on the input (Date of Birth)
+ * - errors: the errors object from React Hook Form
+ * The "error" prop is used to set the error state of the input and the "aria-invalid" attribute.
+ * The "aria-describedby" attribute is set to the id of the helper text element if the field has an error.
+ * The helper text is displayed if the field has an error and is rendered with the id of the field plus "-error".
+ */
+
 export const PhoneField = <TFormValues extends FieldValues>({
     control,
     name,
     label,
     errors,
-    'aria-label': ariaLabel,
 }: PhoneFieldProps<TFormValues>) => {
     const fieldError = errors?.[name];
-    const finalAriaLabel = ariaLabel || label;
     
-
     return (
         <FormControl fullWidth margin="normal" error={!!fieldError}>
             <Controller
@@ -35,7 +45,7 @@ export const PhoneField = <TFormValues extends FieldValues>({
                         forceCallingCode={false}
                         error={!!fieldError}
                         onlyCountries={['AR']}
-                        aria-label={finalAriaLabel}
+                        aria-label={label}
                         aria-labelledby={`${name}-label`}
                         aria-required="true"
                         aria-invalid={!!fieldError}

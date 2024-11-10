@@ -20,6 +20,12 @@ interface AlertsProps {
     formData?: FormValues;
 }
 
+/**
+ * The component conditionally renders a success or error alert based on the provided props.
+ * If `showSuccessAlert` is true, it displays a success alert with `alertMessage` and form data.
+ * If `showErrorAlert` is true, it displays an error alert with `errorMessage`.
+ */
+
 const Alerts = ({ showSuccessAlert, showErrorAlert, errorMessage, alertMessage, formData }: AlertsProps) => {
     return (
         <>

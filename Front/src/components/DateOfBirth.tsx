@@ -10,17 +10,20 @@ interface DateFieldProps<TFormValues extends FieldValues> {
     name: Path<TFormValues>;
     label: string;
     errors?: FieldErrors<TFormValues>;
-    'aria-label'?: string;
 }
+/**
+ * Renders a date picker field with a label and controlled by React Hook Form.
+ * The field is rendered as a MUI DatePicker. It shows validation with the given errors object.
+ * The field suggests the hardcoded min and max dates (using dayjs) so the user has at least 18 years old.
+ */
+
 export const DateField = <TFormValues extends FieldValues>({
     control,
     name,
     label,
     errors,
-    'aria-label': ariaLabel,
 }: DateFieldProps<TFormValues>) => {
     const fieldError = errors?.[name];
-    const finalAriaLabel = ariaLabel || label;
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -40,7 +43,7 @@ export const DateField = <TFormValues extends FieldValues>({
                                     required: true,
                                     error: !!fieldError,
                                     helperText: fieldError?.message as string,
-                                    'aria-label': finalAriaLabel,
+                                    'aria-label': label,
                                     'aria-required': 'true',
                                     'aria-invalid': !!fieldError,
                                     'aria-describedby': fieldError ? `${name}-error` : undefined
