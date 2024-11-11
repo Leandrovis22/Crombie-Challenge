@@ -42,15 +42,15 @@ This is a Full-Stack Web Application featuring a session management system with 
 
 ### Frontend (Front/.env)
 ```env
-REACT_APP_API_BASE_URL=your_api_url
+REACT_APP_API_BASE_URL="your_api_url"
 ```
 
 ### Backend (API/.env)
 ```env
-PORT=3001
-JWT_SECRET=your_secret_key
-DATABASE_URL=your_database_url
-CORS_ORIGIN=your_frontend_url
+PORT="8080"
+JWT_SECRET="your_secret_key"
+DATABASE_URL="your_database_url"
+CORS_ORIGIN="your_frontend_url"
 ```
 
 ## Available Scripts for both Front and Back
