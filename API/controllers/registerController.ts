@@ -9,6 +9,14 @@ dotenv.config();
 
 const sql = neon(process.env.DATABASE_URL as string);
 
+/**
+ * Handles the registration of a new user.
+ * The user is registered if all the required fields are present and the email is not already registered.
+ * If the registration is successful, it returns a JSON response with the user data and a token.
+ * If the registration fails, it returns a JSON response with an error message.
+ * We use bcrypt to hash the password before storing it in the database.
+ */
+
 export const registerController: RequestHandler<{}, any, RegisterRequestBody> = async (req, res): Promise<void> => {
   try {
     const {

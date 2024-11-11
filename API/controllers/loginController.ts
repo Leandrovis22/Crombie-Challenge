@@ -10,6 +10,13 @@ dotenv.config();
 
 const sql = neon(process.env.DATABASE_URL as string);
 
+/**
+ * Handles the login of a user.
+ * The user is logged in if the email and password match those in the database.
+ * If the login is successful, it returns a JSON response with a token.
+ * If the login fails, it returns a JSON response with an error message.
+ */
+
 export const loginController: RequestHandler<{}, any, LoginRequestBody> = async (req, res): Promise<void> => {
     try {
         const { email, password } = req.body;
